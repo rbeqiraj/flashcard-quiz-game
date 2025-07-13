@@ -28,7 +28,7 @@ The Goal of this project is to create a Flashcard Quiz Game in Python. The game 
 - Increment score if answer is correct
 
 # 5. Show Final Score
-- At the end, display: "You got 3 out of 5 correct!"
+- At the end display: "You got 3 out of 5 correct!"
 
 # 6. Replay Option
 - Ask user if they want to play again
@@ -38,12 +38,12 @@ The Goal of this project is to create a Flashcard Quiz Game in Python. The game 
 
 ## Resources
 
-- **Language**: Python 3
-- **Editor**: Visual Studio Code
-- **Version Control**: Git + GitHub
-- **Modules**:
+- Language: Python 3
+- Editor: Visual Studio Code
+- Version Control: Git + GitHub
+- Modules:
   - `random` – to shuffle flashcards
   - (Optional) `csv` or file I/O – for loading from a file
-- **File(s)**:
+- File(s):
   - `flashcard_game.py` – main code
   - `flashcards.txt` – optional for flashcard data
