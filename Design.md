@@ -15,7 +15,7 @@ This game will be **text-based**, using the terminal for interaction. The user w
 
 ---
 
-## 💾 Data Handling
+## Data Handling
 
 ### Data Structures:
 - Flashcards stored as a list of dictionaries:
