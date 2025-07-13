@@ -1,8 +1,8 @@
-# 🧠 Part B – Design
+# Part B – Design
 
 ---
 
-## 🖥️ User Interface
+## User Interface
 
 This game will be **text-based**, using the terminal for interaction. The user will see:
 
