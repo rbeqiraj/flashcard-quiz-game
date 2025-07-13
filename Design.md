@@ -33,7 +33,6 @@ total_questions: optional, could be len(flashcards)
 File Input (optional for now):
 Future feature: load flashcards from flashcards.txt or .csv file
 
---
 ## Modules and Functions
 
 ### `main()`
@@ -66,7 +65,6 @@ Future feature: load flashcards from flashcards.txt or .csv file
   ```python
   [{"question": "What is...", "answer": "..."}, ...]
 
--- 
 Input & Output Specs
 ✅ Input:
 User answers via input() (text)
