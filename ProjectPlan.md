@@ -1,49 +1,56 @@
-# Project Plan - Flashcard Quiz Game
+## 📋 Project Plan – Flashcard Quiz Game
+
+### Objective
+Build a GUI-based Flashcard Quiz Game using Python, SQLite, and Tkinter with interactive tabs for creating, learning, and testing flashcards. Designed to help users study and memorize terms efficiently.
 
 ---
 
-# Goal
-The Goal of this project is to create a Flashcard Quiz Game in Python. The game will quiz users using questions and answers stored in memory or a file. It will give feedback on each answer and track the user's score. The goal is to make a fun, simple, and interactive study tool.
+### Project Features
+
+- Create custom flashcard sets
+- Add/edit/delete flashcards
+- Learn Mode for flipping through cards
+- Quiz Mode with user input and scoring
+- Demo set for new users
+- Dark/light themes using ttkbootstrap
+- Character limits to prevent overflow
+- Visual feedback for correct/incorrect answers
 
 ---
 
-# Functionalities & Breakdown
+### Tech Stack
 
-# 1. Load Flashcards
-- Flashcards will be stored in a list of dictionaries
-- Example: `{"question": "What is 2 + 2?", "answer": "4"}`
-- (Optional) Load flashcards from an external `.txt` file later
-
-# 2. Display Questions
-- Shuffle flashcards randomly
-- Print each question to the user using `print()`
-
-# 3. Get and Check Answers
-- Use `input()` to get user answers
-- Use `.lower()` for case-insensitive comparison
-- Give feedback: "Correct!" or "Incorrect. The answer is..."
-
-# 4. Track Score
-- Use a counter variable (e.g., `score = 0`)
-- Increment score if answer is correct
-
-# 5. Show Final Score
-- At the end display: "You got 3 out of 5 correct!"
-
-# 6. Replay Option
-- Ask user if they want to play again
-- Restart or exit based on input
+- **Language:** Python
+- **GUI:** Tkinter + ttkbootstrap
+- **Database:** SQLite
+- **Styling:** ttkbootstrap themes
 
 ---
 
-## Resources
+### Development Timeline
 
-- Language: Python 3
-- Editor: Visual Studio Code
-- Version Control: Git + GitHub
-- Modules:
-  - `random` – to shuffle flashcards
-  - (Optional) `csv` or file I/O – for loading from a file
-- File(s):
-  - `flashcard_game.py` – main code
-  - `flashcards.txt` – optional for flashcard data
+| Week | Tasks                                                                 |
+|------|-----------------------------------------------------------------------|
+| 1    | Design GUI layout and database schema                                |
+| 2    | Implement flashcard set creation and saving to SQLite                |
+| 3    | Add Learn Mode with flip and navigation buttons                      |
+| 4    | Build Quiz Mode with scoring, feedback, and input handling           |
+| 5    | Add theme selector and character limits for input validation         |
+| 6    | Integrate demo set and fix known bugs (e.g., delete set refresh bug) |
+| 7    | Final testing, polish UI, and prepare for presentation/demo          |
+
+---
+
+### Future Improvements (Stretch Goals)
+
+- [ ] Add Multiple Choice Quiz Mode
+- [ ] Track progress and save high scores
+- [ ] Export/import flashcard sets as files
+- [ ] Support images in flashcards
+- [ ] Mobile-friendly or web version
+
+---
+
+### Author
+- Developed by Rebecca Beqiraj for COP 1500 – Intro to Computer Science  
+- Florida Gulf Coast University (FGCU)
