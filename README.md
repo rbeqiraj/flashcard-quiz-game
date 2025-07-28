@@ -1,11 +1,11 @@
 Flashcard Quiz Game coded in Python
-# 🧠 Flashcard Quiz Game
+# Flashcard Quiz Game
 
 A GUI-based flashcard application built with Python, SQLite, and Tkinter (with ttkbootstrap) to help users study using flashcards in **Learn Mode** or **Quiz Mode**. Users can create sets, add flashcards, test their memory, and even switch themes for a personalized experience.
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 | Learn Mode            | Quiz Mode             | Theme Settings         |
 |-----------------------|-----------------------|------------------------|
@@ -14,7 +14,7 @@ A GUI-based flashcard application built with Python, SQLite, and Tkinter (with t
 
 ---
 
-## 🚀 Features
+## Features
 
 - Create, save, and delete flashcard sets
 - Add flashcards with word/definition pairs
