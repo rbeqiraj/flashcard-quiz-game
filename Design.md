@@ -1,6 +1,6 @@
 # Design Overview
 
-## 🧠 Overview
+## Overview
 The Flashcard Quiz Game is an interactive GUI application built with Python using `tkinter` and `ttkbootstrap`. It allows users to create, manage, and quiz themselves on custom flashcard sets.
 
 ---
@@ -19,7 +19,7 @@ The Flashcard Quiz Game is an interactive GUI application built with Python usin
 
 ---
 
-## 🧩 Modules Used
+## Modules Used
 
 - `tkinter` – GUI framework
 - `ttkbootstrap` – Styled widget theme
@@ -28,7 +28,7 @@ The Flashcard Quiz Game is an interactive GUI application built with Python usin
 
 ---
 
-## 🎛️ GUI Layout
+## GUI Layout
 
 **Tabs:**
 - `Create Set`: Add new sets, words, and definitions
@@ -39,7 +39,7 @@ The Flashcard Quiz Game is an interactive GUI application built with Python usin
 
 ---
 
-## 🧪 Quiz Logic
+## Quiz Logic
 
 - Quiz pulls cards from the selected set
 - Compares user input (case-insensitive) with correct word
@@ -48,7 +48,7 @@ The Flashcard Quiz Game is an interactive GUI application built with Python usin
 
 ---
 
-## 🎨 Theme Support
+## Theme Support
 
 Users can choose from:
 - Flatly (default)
@@ -59,14 +59,14 @@ Users can choose from:
 
 ---
 
-## 🗃️ Database Schema
+## Database Schema
 
 - **flashcard_sets**: `(id, name)`
 - **flashcards**: `(id, set_id, word, definition)`
 
 ---
 
-## 🔧 To Do / Improvements
+## To Do / Improvements
 
 - Add font customization (coming soon)
 - Export/import flashcards
