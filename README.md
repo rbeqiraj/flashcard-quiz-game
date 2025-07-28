@@ -55,7 +55,7 @@ flashcard-quiz-game/
    sqlite3 is built into Python - no install needed
    ```
    tkinter comes with most Python installs
-
+   ```
 4. Run the app:
    ```
    python flashcard_game.py
