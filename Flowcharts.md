@@ -1,66 +1,30 @@
 # Part D – Flowcharts
 
-This section includes flowcharts describing the main program logic and individual functions in the Flashcard Quiz Game.
-
 +-----------------------------+
-|   Start start_quiz()        |
+|     Start start_quiz()     |
 +-----------------------------+
-           |
-           v
+            |
+            v
 +-----------------------------+
-| Get selected flashcard set |
+|  Get selected flashcard set|
 +-----------------------------+
-           |
-           v
+            |
+            v
 +-----------------------------+
 | Fetch flashcards from DB   |
 +-----------------------------+
-           |
-           v
+            |
+            v
 +-----------------------------+
 | If empty: show message     |
 +-----------------------------+
-           |
-           v
+            |
+            v
 +-----------------------------+
 | Initialize quiz variables  |
 +-----------------------------+
-           |
-           v
-|  Call show_quiz_question() |
+            |
+            v
 +-----------------------------+
-
-
---
-
-
-+------------------------------------+
-|     Start submit_quiz_answer()     |
-+------------------------------------+
-                |
-                v
-+------------------------------------+
-|  Get and lowercase user input      |
-+------------------------------------+
-                |
-                v
-+------------------------------------+
-| Get correct answer and lowercase  |
-+------------------------------------+
-                |
-                v
-+------------------------------------+
-|  Compare input == correct answer   |
-+------------------------------------+
-         | True             | False
-         v                  v
-+----------------+    +----------------------+
-| Show ✅ Correct |    | Show ❌ Incorrect     |
-+----------------+    +----------------------+
-         |                  |
-         +--------+---------+
-                  |
-                  v
-+------------------------------------+
-|  Increment index & call next card  |
-+------------------------------------+
+| Call show_quiz_question()  |
++-----------------------------+
