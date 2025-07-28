@@ -67,16 +67,15 @@ flashcard-quiz-game/
 https://github.com/rbeqiraj/flashcard-quiz-game.git
 
 
-1. Clone this repo:
-```
+1. Clone this repo (Mac Users):
+   ```
    git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
-```
+   ```
    cd flashcard-quiz-game
 
 2. Install dependencies (optional):
    pip install ttkbootstrap (Needs to be installed via pip)
    sqlite3 is built into Python - no install needed
-   ```
 4. Run the app:
    ```
    python flashcard_game.py
