@@ -33,11 +33,11 @@ Build a GUI-based Flashcard Quiz Game using Python, SQLite, and Tkinter with int
 |------|-----------------------------------------------------------------------|
 | 1    | Design GUI layout and database schema                                |
 | 2    | Implement flashcard set creation and saving to SQLite                |
-| 3    | Add Learn Mode with flip and navigation buttons                      |
-| 4    | Build Quiz Mode with scoring, feedback, and input handling           |
-| 5    | Add theme selector and character limits for input validation         |
-| 6    | Integrate demo set and fix known bugs (e.g., delete set refresh bug) |
-| 7    | Final testing, polish UI, and prepare for presentation/demo          |
+| 2    | Add Learn Mode with flip and navigation buttons                      |
+| 3    | Build Quiz Mode with scoring, feedback, and input handling           |
+| 3    | Add theme selector and character limits for input validation         |
+| 4    | Integrate demo set and fix known bugs (e.g., delete set refresh bug) |
+| 4    | Final testing, polish UI, and prepare for presentation/demo          |
 
 ---
 
