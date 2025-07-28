@@ -69,7 +69,9 @@ https://github.com/rbeqiraj/flashcard-quiz-game.git
 
 1. Clone this repo:
    ```
+   ```
    git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
+   ```
    ```
    cd flashcard-quiz-game
    ```
