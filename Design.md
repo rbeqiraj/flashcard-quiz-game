@@ -1,81 +1,73 @@
-# Part B – Design
+# Design Overview
+
+## 🧠 Overview
+The Flashcard Quiz Game is an interactive GUI application built with Python using `tkinter` and `ttkbootstrap`. It allows users to create, manage, and quiz themselves on custom flashcard sets.
 
 ---
 
-## User Interface
+## 🖥️ Key Features
 
-This game will be **text-based**, using the terminal for interaction. The user will see:
-
-- A welcome message
-- A series of flashcard questions
-- Prompts to enter answers
-- Instant feedback (Correct/Incorrect)
-- A final score summary
-- A “Play again?” prompt at the end
+- Create flashcard sets with custom words and definitions
+- Store flashcards using SQLite
+- Learn mode: flip through flashcards and view definitions
+- Quiz mode: test knowledge by typing answers and receiving feedback
+- Theme settings with Bootstrap-inspired themes
+- Character limits to improve UX (30 for words, 100 for definitions)
+- Demo mode with preloaded cards
+- Visual feedback for correct/incorrect answers
+- Responsive styling using `ttkbootstrap` themes (Flatly, Darkly, Superhero, etc.)
 
 ---
 
-## Data Handling
+## 🧩 Modules Used
 
-### Data Structures:
-- Flashcards stored as a list of dictionaries:
-  ```python
-  flashcards = [
-      {"question": "What is 2 + 2?", "answer": "4"},
-      {"question": "What is the capital of France?", "answer": "Paris"},
-  ]
+- `tkinter` – GUI framework
+- `ttkbootstrap` – Styled widget theme
+- `sqlite3` – Local database
+- `tkinter.font` – Font customization
 
-Variables:
-score: tracks number of correct answers
+---
 
-total_questions: optional, could be len(flashcards)
+## 🎛️ GUI Layout
 
-File Input (optional for now):
-Future feature: load flashcards from flashcards.txt or .csv file
+**Tabs:**
+- `Create Set`: Add new sets, words, and definitions
+- `Select Set`: Choose a set and delete or load demo cards
+- `Learn Mode`: Flip through cards to learn
+- `Quiz Mode`: Input answers and get feedback
+- `Settings`: Change the theme
 
-## Modules and Functions
+---
 
-### `main()`
-- Purpose: Controls the overall game flow
-- Input: None
-- Output: None
-- Description: Runs the game loop, calls `play_game()`, and handles replay logic
+## 🧪 Quiz Logic
 
-### `play_game()`
-- Purpose: Runs one full round of the flashcard quiz
-- Input: None
-- Output: None
-- Description:
-  - Shuffles flashcards
-  - Asks each question
-  - Checks answers and tracks score
-  - Prints feedback and results
+- Quiz pulls cards from the selected set
+- Compares user input (case-insensitive) with correct word
+- Tracks score and provides visual feedback
+- Disables quiz input after completion
 
-### `check_answer(user_input, correct_answer)`
-- Purpose: Compares the user’s input with the correct answer
-- Input: `user_input` (string), `correct_answer` (string)
-- Output: `True` or `False`
-- Description: Returns whether the input matches the correct answer (case-insensitive)
+---
 
-### `load_flashcards()`
-- Purpose: Loads flashcards from an external file
-- Input: File path (optional: `.txt` or `.csv`)
-- Output: List of dictionaries
-- Description: Reads questions and answers from a file and returns a list in the form:
-  ```python
-  [{"question": "What is...", "answer": "..."}, ...]
+## 🎨 Theme Support
 
-Input & Output Specs
-✅ Input:
-User answers via input() (text)
+Users can choose from:
+- Flatly (default)
+- Darkly
+- Superhero
+- Journal
+- Morph
 
-Replay prompt: “Do you want to play again? yes/no”
+---
 
-✅ Output:
-Printed questions
+## 🗃️ Database Schema
 
-Printed feedback: “✅ Correct!” or “❌ Incorrect…”
+- **flashcard_sets**: `(id, name)`
+- **flashcards**: `(id, set_id, word, definition)`
 
-Final score: “You got 4/5 correct”
+---
 
-Option to restart or quit
+## 🔧 To Do / Improvements
+
+- Add font customization (coming soon)
+- Export/import flashcards
+- Flashcard progress tracking
