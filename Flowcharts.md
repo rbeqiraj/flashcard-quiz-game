@@ -1,6 +1,6 @@
 ## 🧠 Main Program Flow
 
-## 🔄 Function Flow: start_quiz()
+## Function Flow: start_quiz()
 ```
 +------------------------------+
 |    Start start_quiz()       |
@@ -32,7 +32,7 @@
 +------------------------------+
 ```
 
-## 📝 Function Flow: submit_quiz_answer()
+## Function Flow: submit_quiz_answer()
 ```
 +------------------------------------------+
 |     Start submit_quiz_answer()           |
