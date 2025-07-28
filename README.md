@@ -68,8 +68,6 @@ https://github.com/rbeqiraj/flashcard-quiz-game.git
 
 
 1. Clone this repo:
-   ```
-   ```
    git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
    ```
    ```
@@ -77,8 +75,6 @@ https://github.com/rbeqiraj/flashcard-quiz-game.git
    ```
 
 2. Install dependencies (optional):
-   ```
-   ```
    pip install ttkbootstrap (Needs to be installed via pip)
    ```
    ```
