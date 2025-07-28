@@ -76,6 +76,7 @@ flashcard-quiz-game/
 - FGCU – Intro to Computer Science (COP 1500)
 - ttkbootstrap by Tom Schaul – [GitHub](https://github.com/israel-dryer/ttkbootstrap)
 - https://www.youtube.com/watch?v=eOdbvneI33M
+- https://discord.gg/python
 
 ---
 
