@@ -68,11 +68,9 @@ https://github.com/rbeqiraj/flashcard-quiz-game.git
 
 
 1. Clone this repo (Mac Users):
-```
-```
- git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
-```
-```
+git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
+cd flashcard-quiz-game
+
    cd flashcard-quiz-game
 
 2. Install dependencies (optional):
