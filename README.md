@@ -50,10 +50,13 @@ flashcard-quiz-game/
 
 2. Install dependencies (optional):
    ```
-   pip install ttkbootstrap
+   pip install ttkbootstrap (Needs to be installed via pip)
    ```
+   sqlite3 is built into Python - no install needed
+   ```
+   tkinter comes with most Python installs
 
-3. Run the app:
+4. Run the app:
    ```
    python flashcard_game.py
    ```
