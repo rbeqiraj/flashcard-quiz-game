@@ -52,7 +52,9 @@ flashcard-quiz-game/
    ```
    pip install ttkbootstrap (Needs to be installed via pip)
    ```
+   ```
    sqlite3 is built into Python - no install needed
+   ```
    ```
    tkinter comes with most Python installs
    ```
