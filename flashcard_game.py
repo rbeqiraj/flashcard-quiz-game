@@ -5,7 +5,8 @@ from tkinter import messagebox
 from ttkbootstrap import Style
 import tkinter.font as tkFont
 
-current_theme = "flatly"  # Start with default light theme
+# Start with default light theme - can be adjusted in settings
+current_theme = "flatly" 
 
 # Create database tabels if they do not exist
 def create_tabels(conn):
@@ -40,6 +41,7 @@ def add_flashcard_set(conn, name):
          VALUES (?)
     ''', (name,))
 
+    # Get the ID of the newly added flashcard set
     set_id = cursor.lastrowid
     conn.commit()
     
@@ -90,7 +92,6 @@ def get_flashcards(conn, set_id):
     return flashcards
 
 # Function to delete a flashcard set from the database - ISSUE OCCURED WHEN TRYING TO DELETE A SET
-
 def delete_flashcard_set(conn, set_id):
     cursor = conn.cursor()
 
@@ -132,23 +133,32 @@ def create_flashcard_set():
             word_var.set('')
             definition_var.set('')
 
+# Function to load a demo flashcard set
 def load_demo_set():
     demo_name = "Demo"
     if demo_name not in get_sets(conn):
         set_id = add_flashcard_set(conn, demo_name)
+        # Learn Mode cards
         add_flashcard(conn, set_id, "Flip", "Click the flip button to see the definition.")
         add_flashcard(conn, set_id, "Next", "Use next to see the next card.")
         add_flashcard(conn, set_id, "Enjoy!", "You're ready to study.")
+
+        # Quiz Mode demo cards
+        add_flashcard(conn, set_id, "Python", "A programming language used to build this app.")
+        add_flashcard(conn, set_id, "Definition", "What is shown when you flip a flashcard.")
+        add_flashcard(conn, set_id, "Submit", "Click this to check your answer in Quiz Mode.")
+        add_flashcard(conn, set_id, "Score", "Your final result after finishing a quiz.")
     populate_sets_combobox()
     sets_combobox.set(demo_name)
     select_flashcard_set()
 
-        
+    # Function to add a word to the current flashcard set
 def add_word():
     set_name = set_name_var.get()
     word = word_var.get()
     definition = definition_var.get()
 
+    # Check if word and definition are not too long - character limits
     if len(word) > 30:
         messagebox.showerror("Too Long", "Word must be under 30 characters.")
         return
@@ -157,6 +167,7 @@ def add_word():
         messagebox.showerror("Too Long", "Definition must be under 100 characters.")
         return
 
+    # Check if set_name, word, and definition are not empty
     if set_name and word and definition:
         if set_name not in get_sets(conn):
             set_id = add_flashcard_set(conn, set_name)
@@ -165,11 +176,13 @@ def add_word():
 
         add_flashcard(conn, set_id, word, definition)
 
+    # Clear the input fields after adding the word
         word_var.set("")
         definition_var.set("")
         
         populate_sets_combobox()
 
+# Function to populate the sets_combobox with flashcard set names
 def populate_sets_combobox():
      sets_combobox['values'] = tuple(get_sets(conn).keys())
 
@@ -188,6 +201,7 @@ def handle_delete_flashcard_set():
             populate_sets_combobox()
             clear_flashcards_display()
 
+# Reset the current_cards and card_index
 def select_flashcard_set():
     global current_cards, card_index
     set_name = sets_combobox.get()
@@ -195,9 +209,10 @@ def select_flashcard_set():
     if set_name:
         set_id = get_sets(conn)[set_name]
         cards = get_flashcards(conn, set_id)
-                          
+
+        # Store cards globally for use in quiz too          
         if cards:
-            current_cards = cards  # Store cards globally for use in quiz too
+            current_cards = cards  
             card_index = 0
             display_flashcards(cards)
         else:
@@ -208,7 +223,7 @@ def select_flashcard_set():
         card_index = 0  
         clear_flashcards_display()
 
-
+# Function to display flashcards in the Learn Mode tab
 def display_flashcards(cards):
     global card_index
     global current_cards
@@ -227,10 +242,12 @@ def display_flashcards(cards):
 
     show_card()
 
+# Function to create a flashcard display
 def create_flashcard_display():
     word_label.config(text= '')
     definition_label.config(text='')
 
+# Function to apply the selected theme
 def apply_theme():
     global current_theme, style
     selected = theme_var.get()
@@ -248,7 +265,7 @@ def apply_theme():
 def show_card():    
     global card_index
     global current_cards
-
+#    # Check if there are any cards to display
     if current_cards:
         if 0 <= card_index < len(current_cards):
             word, _ = current_cards[card_index]
@@ -286,39 +303,43 @@ def prev_flashcard():
         card_index = max(card_index - 1, 0)
         show_card()
 
+# Function to handle quiz mode
 import random
 mc_cards = []
 mc_index = 0
 mc_score = 0
 correct_mc_answer = ""
 
-def start_quiz():
-    global quiz_cards, quiz_index, quiz_score
-    set_name = sets_combobox.get()
+# Function to submit the answer in quiz mode
+def submit_quiz_answer():
+    global quiz_index, quiz_score, quiz_cards
 
-    if not set_name:
-        messagebox.showerror("No Set Selected", "Please select a flashcard set first.")
-        return
+    if quiz_index >= len(quiz_cards):
+        return  # Prevent going out of range
 
-    sets_dict = get_sets(conn)
-    if set_name not in sets_dict:
-        messagebox.showerror("Set Error", "Selected set not found.")
-        return
+    user_input = quiz_input.get().strip().lower()
+    correct_word = quiz_cards[quiz_index][0].strip().lower()
 
-    set_id = sets_dict[set_name]
-    quiz_cards = get_flashcards(conn, set_id)
+    if user_input == correct_word:
+        quiz_feedback_label.config(text="✅ Correct!", foreground="green")
+        quiz_score += 1
+    else:
+        quiz_feedback_label.config(text=f"❌ Incorrect. Answer: {correct_word}", foreground="red")
 
-    if not quiz_cards:
-        messagebox.showinfo("Empty Set", "This set has no flashcards.")
-        return
+    quiz_index += 1
 
-    quiz_index = 0
-    quiz_score = 0
-    quiz_input.config(state="normal")  # Allow input
-    submit_button.config(state="normal")  # Re-enable Submit
-    show_quiz_question()
+    # Check if this was the last question
+    if quiz_index >= len(quiz_cards):
+        # Disable input and show final score
+        quiz_input.config(state="disabled")
+        submit_button.config(state="disabled")
+        quiz_def_label.config(text="Quiz Complete!")
+        quiz_feedback_label.config(text=f"Your Score: {quiz_score}/{len(quiz_cards)}")
+        messagebox.showinfo("Quiz Finished", f"You scored {quiz_score} out of {len(quiz_cards)}.")
+    else:
+        root.after(1000, show_quiz_question)
 
-
+# Function to show the next quiz question
 def show_quiz_question():
     if 0 <= quiz_index < len(quiz_cards):
         definition = quiz_cards[quiz_index][1]
@@ -331,6 +352,7 @@ def show_quiz_question():
         quiz_input.config(state="disabled")
         submit_button.config(state="disabled")
         
+# Function to submit the answer in quiz mode
 def submit_quiz_answer():
     global quiz_index, quiz_score, quiz_cards
 
@@ -349,7 +371,7 @@ def submit_quiz_answer():
     quiz_index += 1
     root.after(1000, show_quiz_question)
 
-
+# Function to start the quiz
 if __name__ == "__main__":
     # Connect to the SQLite database and create tabels 
     conn = sqlite3.connect('flashcards.db')
@@ -436,6 +458,23 @@ if __name__ == "__main__":
     # Feedback label for quiz answers
     quiz_feedback_label = ttk.Label(quiz_frame, text="", font=("Times New Roman", 14))
     quiz_feedback_label.pack(padx=5, pady=5)
+
+    # Function to start the quiz
+    def start_quiz():
+        global quiz_cards, quiz_index, quiz_score
+        set_name = sets_combobox.get()
+        if set_name:
+            set_id = get_sets(conn)[set_name]
+            quiz_cards = get_flashcards(conn, set_id)
+            quiz_index = 0
+            quiz_score = 0
+            quiz_input.config(state="normal")
+            submit_button.config(state="normal")
+            show_quiz_question()
+        else:
+            quiz_def_label.config(text="Please select a set to start the quiz.")
+            quiz_input.config(state="disabled")
+            submit_button.config(state="disabled")
 
     # Button to submit quiz answer
     submit_button = ttk.Button(quiz_frame, text="Submit", command=submit_quiz_answer)
