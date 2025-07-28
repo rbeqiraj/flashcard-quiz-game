@@ -42,6 +42,31 @@ flashcard-quiz-game/
 
 ## Setup Instructions
 
+### 1. Install Required Software
+
+#### Install Python
+- Download from: [https://www.python.org/downloads/](https://www.python.org/downloads/)
+- Install the latest version for your OS
+- **IMPORTANT:** ✅ During installation, check the box that says **“Add Python to PATH”**
+
+#### Install VS Code
+- Download from: [https://code.visualstudio.com/](https://code.visualstudio.com/)
+- Install it and open it once to complete setup
+
+---
+
+### 2. Clone This Project from GitHub
+
+#### Option A: Using VS Code GUI
+- Open VS Code
+- Press `Ctrl + Shift + P` (or `Cmd + Shift + P` on Mac)
+- Type: `Git: Clone`
+- Paste this link:
+
+```bash
+https://github.com/rbeqiraj/flashcard-quiz-game.git
+
+
 1. Clone this repo:
    ```
    git clone https://github.com/rbeqiraj/flashcard-quiz-game.git
