@@ -2,75 +2,65 @@
 
 This section includes flowcharts describing the main program logic and individual functions in the Flashcard Quiz Game.
 
----
-
-## Main Program Flowchart
-
-```plaintext
-+------------------------+
-| Start Program          |
-+------------------------+
-           |
-           v
-+------------------------+
-| Call play_game()       |
-+------------------------+
-           |
-           v
-+------------------------+
-| Ask to play again?     |
-+------------------------+
-     | Yes        | No
-     v            v
-(play_game)     End Program
-
--------------
-
-## Function-Level Flowchart: play_game()
 +-----------------------------+
-| Start play_game()          |
+|   Start start_quiz()        |
 +-----------------------------+
            |
            v
 +-----------------------------+
-| Shuffle flashcards         |
+| Get selected flashcard set |
 +-----------------------------+
            |
            v
 +-----------------------------+
-| For each flashcard:        |
-| - Display question         |
-| - Get user input           |
-| - Check answer             |
-| - Show feedback            |
+| Fetch flashcards from DB   |
 +-----------------------------+
            |
            v
 +-----------------------------+
-| Show final score           |
+| If empty: show message     |
 +-----------------------------+
            |
            v
-| Return to main()           |
++-----------------------------+
+| Initialize quiz variables  |
++-----------------------------+
+           |
+           v
+|  Call show_quiz_question() |
 +-----------------------------+
 
-------------
 
-## Function-Level Flowchart: check_answer()
-+---------------------------+
-| check_answer(input, ans) |
-+---------------------------+
-           |
-           v
-+---------------------------+
-| Convert input & answer   |
-| to lowercase             |
-+---------------------------+
-           |
-           v
-+---------------------------+
-| Compare input == answer? |
-+---------------------------+
-     | Yes         | No
-     v             v
-Return True     Return False
+--
+
+
++------------------------------------+
+|     Start submit_quiz_answer()     |
++------------------------------------+
+                |
+                v
++------------------------------------+
+|  Get and lowercase user input      |
++------------------------------------+
+                |
+                v
++------------------------------------+
+| Get correct answer and lowercase  |
++------------------------------------+
+                |
+                v
++------------------------------------+
+|  Compare input == correct answer   |
++------------------------------------+
+         | True             | False
+         v                  v
++----------------+    +----------------------+
+| Show ✅ Correct |    | Show ❌ Incorrect     |
++----------------+    +----------------------+
+         |                  |
+         +--------+---------+
+                  |
+                  v
++------------------------------------+
+|  Increment index & call next card  |
++------------------------------------+
