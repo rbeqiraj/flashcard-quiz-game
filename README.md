@@ -5,15 +5,6 @@ A GUI-based flashcard application built with Python, SQLite, and Tkinter (with t
 
 ---
 
-## Screenshots
-
-| Learn Mode            | Quiz Mode             | Theme Settings         |
-|-----------------------|-----------------------|------------------------|
-| ![Learn Mode]         |![Quiz Mode]           | ![Settings]|
-
-
----
-
 ## Features
 
 - Create, save, and delete flashcard sets
