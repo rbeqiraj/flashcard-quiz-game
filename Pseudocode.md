@@ -1,54 +1,95 @@
-# Part C – Pseudocode
+## Pseudocode – Flashcard Quiz Game
+
+This section outlines the logical structure of the main functions in the Flashcard Quiz Game.
 
 ---
 
-## Top-Level Algorithm (Main Program)
+### start_quiz()
 
-main()
-FUNCTION main():
-    DISPLAY welcome message
-    WHILE True:
-        CALL play_game()
-        ASK user if they want to play again
-        IF user says no:
-            DISPLAY "Thanks for playing!"
-            BREAK loop
-END FUNCTION
+```
+function start_quiz():
+    get selected flashcard set from dropdown
+    if no set is selected:
+        show error message and return
 
-—--
+    retrieve flashcards for that set
+    if no flashcards:
+        show info message and return
 
-play_game()
-FUNCTION play_game():
-    SHUFFLE the list of flashcards
-    SET score to 0
-    FOR each card in flashcards:
-        DISPLAY card["question"]
-        GET user_answer
-        IF check_answer(user_answer, card["answer"]):
-            DISPLAY "Correct!"
-            INCREMENT score
-        ELSE:
-            DISPLAY "Incorrect. The correct answer is: card['answer']"
-    DISPLAY final score out of total
-END FUNCTION
+    initialize quiz_index = 0
+    initialize quiz_score = 0
 
-—-- 
-
-check_answer(user_input, correct_answer)
-FUNCTION check_answer(user_input, correct_answer):
-    IF user_input.lower() == correct_answer.lower():
-        RETURN True
-  ELSE:
-        RETURN False
-END FUNCTION
+    enable quiz input and buttons
+    call show_quiz_question()
+```
 
 ---
 
-## ⚠️ Edge Cases & Error Handling
+### show_quiz_question()
 
-- If the user enters nothing:
-  - Treat it as a blank string and mark as incorrect
-- If flashcard list is empty:
-  - Display message: "No flashcards found"
-- (Optional) Try/Except for file loading
-- Replay input is case-insensitive: Accept “Yes”, “yes”, “YES”, etc.
+```
+function show_quiz_question():
+    if quiz_index is within range of quiz_cards:
+        display the definition
+        clear previous answer and feedback
+    else:
+        show final score
+        disable input and submit button
+```
+
+---
+
+### submit_quiz_answer()
+
+```
+function submit_quiz_answer():
+    if quiz_index is out of range:
+        return
+
+    get user input and convert to lowercase
+    get correct word and convert to lowercase
+
+    if user input matches correct word:
+        display "Correct" message
+        increase score
+    else:
+        display "Incorrect" and show correct answer
+
+    increase quiz_index by 1
+    wait 1 second, then call show_quiz_question()
+```
+
+---
+
+### add_flashcard()
+
+```
+function add_flashcard():
+    get set name, word, and definition
+
+    if word or definition is too long:
+        show error and return
+
+    if set doesn't exist:
+        create new set
+
+    insert flashcard into database
+    clear input fields
+    refresh set list
+```
+
+---
+
+### delete_flashcard_set()
+
+```
+function delete_flashcard_set():
+    ask user to confirm deletion
+
+    if confirmed:
+        delete all flashcards with that set_id
+        delete the flashcard set itself
+        reset selection and refresh UI
+```
+
+---
