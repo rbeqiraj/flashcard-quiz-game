@@ -3,6 +3,9 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from ttkbootstrap import Style
+import tkinter.font as tkFont
+
+current_theme = "flatly"  # Start with default light theme
 
 # Create database tabels if they do not exist
 def create_tabels(conn):
@@ -86,7 +89,8 @@ def get_flashcards(conn, set_id):
     
     return flashcards
 
-# Function to delete a flashcard set from the database
+# Function to delete a flashcard set from the database - ISSUE OCCURED WHEN TRYING TO DELETE A SET
+
 def delete_flashcard_set(conn, set_id):
     cursor = conn.cursor()
 
@@ -109,7 +113,7 @@ def delete_flashcard_set(conn, set_id):
     clear_flashcards_display()
     populate_sets_combobox()
 
-    # Clear the current_cards list and reset the card_index
+    # Clear the current_cards list and reset the card_index - The UI wasn't refreshing properly after deleting a set so adding these lines of code fixed the issue.
     global current_cards, card_index
     current_cards = []
     card_index = 0
@@ -127,11 +131,31 @@ def create_flashcard_set():
             set_name_var.set('')
             word_var.set('')
             definition_var.set('')
+
+def load_demo_set():
+    demo_name = "Demo"
+    if demo_name not in get_sets(conn):
+        set_id = add_flashcard_set(conn, demo_name)
+        add_flashcard(conn, set_id, "Flip", "Click the flip button to see the definition.")
+        add_flashcard(conn, set_id, "Next", "Use next to see the next card.")
+        add_flashcard(conn, set_id, "Enjoy!", "You're ready to study.")
+    populate_sets_combobox()
+    sets_combobox.set(demo_name)
+    select_flashcard_set()
+
         
 def add_word():
     set_name = set_name_var.get()
     word = word_var.get()
     definition = definition_var.get()
+
+    if len(word) > 30:
+        messagebox.showerror("Too Long", "Word must be under 30 characters.")
+        return
+
+    if len(definition) > 100:
+        messagebox.showerror("Too Long", "Definition must be under 100 characters.")
+        return
 
     if set_name and word and definition:
         if set_name not in get_sets(conn):
@@ -165,6 +189,7 @@ def handle_delete_flashcard_set():
             clear_flashcards_display()
 
 def select_flashcard_set():
+    global current_cards, card_index
     set_name = sets_combobox.get()
 
     if set_name:
@@ -172,16 +197,17 @@ def select_flashcard_set():
         cards = get_flashcards(conn, set_id)
                           
         if cards:
+            current_cards = cards  # Store cards globally for use in quiz too
+            card_index = 0
             display_flashcards(cards)
         else:
             word_label.config(text="No flashcards in this set.")
             definition_label.config(text="")
     else:
-        # Clear the current cards list and reset card index
-        global current_cards, card_index
         current_cards = []
         card_index = 0  
         clear_flashcards_display()
+
 
 def display_flashcards(cards):
     global card_index
@@ -189,6 +215,9 @@ def display_flashcards(cards):
 
     card_index = 0
     current_cards = cards
+    quiz_cards = []
+    quiz_index = 0
+    quiz_score = 0
 
     # Clear the display
     if not cards:
@@ -201,6 +230,19 @@ def display_flashcards(cards):
 def create_flashcard_display():
     word_label.config(text= '')
     definition_label.config(text='')
+
+def apply_theme():
+    global current_theme, style
+    selected = theme_var.get()
+    current_theme = selected
+    style = Style(theme=selected)
+
+    # Reapply custom styling (optional)
+    style.configure('TButton', font=('Times New Roman', 16), foreground='white', background='#006778')
+    style.map('TButton', background=[('active', '#00703C')])
+    style.configure('TLabel', font=('Times New Roman', 16), foreground="#015F33")
+    style.configure('TEntry', fieldbackground='#ffffff', foreground='#000000')
+
 
 # Function to display the current flashcards word
 def show_card():    
@@ -244,6 +286,70 @@ def prev_flashcard():
         card_index = max(card_index - 1, 0)
         show_card()
 
+import random
+mc_cards = []
+mc_index = 0
+mc_score = 0
+correct_mc_answer = ""
+
+def start_quiz():
+    global quiz_cards, quiz_index, quiz_score
+    set_name = sets_combobox.get()
+
+    if not set_name:
+        messagebox.showerror("No Set Selected", "Please select a flashcard set first.")
+        return
+
+    sets_dict = get_sets(conn)
+    if set_name not in sets_dict:
+        messagebox.showerror("Set Error", "Selected set not found.")
+        return
+
+    set_id = sets_dict[set_name]
+    quiz_cards = get_flashcards(conn, set_id)
+
+    if not quiz_cards:
+        messagebox.showinfo("Empty Set", "This set has no flashcards.")
+        return
+
+    quiz_index = 0
+    quiz_score = 0
+    quiz_input.config(state="normal")  # Allow input
+    submit_button.config(state="normal")  # Re-enable Submit
+    show_quiz_question()
+
+
+def show_quiz_question():
+    if 0 <= quiz_index < len(quiz_cards):
+        definition = quiz_cards[quiz_index][1]
+        quiz_def_label.config(text=f"Definition:\n{definition}")
+        quiz_input.delete(0, tk.END)
+        quiz_feedback_label.config(text="")
+    else:
+        quiz_def_label.config(text="Quiz Complete!")
+        quiz_feedback_label.config(text=f"Your Score: {quiz_score}/{len(quiz_cards)}")
+        quiz_input.config(state="disabled")
+        submit_button.config(state="disabled")
+        
+def submit_quiz_answer():
+    global quiz_index, quiz_score, quiz_cards
+
+    if quiz_index >= len(quiz_cards):
+        return  # Prevent going out of range
+
+    user_input = quiz_input.get().strip().lower()
+    correct_word = quiz_cards[quiz_index][0].strip().lower()
+
+    if user_input == correct_word:
+        quiz_feedback_label.config(text="✅ Correct!", foreground="green")
+        quiz_score += 1
+    else:
+        quiz_feedback_label.config(text=f"❌ Incorrect. Answer: {correct_word}", foreground="red")
+
+    quiz_index += 1
+    root.after(1000, show_quiz_question)
+
+
 if __name__ == "__main__":
     # Connect to the SQLite database and create tabels 
     conn = sqlite3.connect('flashcards.db')
@@ -253,6 +359,9 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Flashcard Quiz Game")
     root.geometry("600x400")
+
+    # Define theme_var for theme selection
+    theme_var = tk.StringVar(value=current_theme)
 
     # Apply styling to the GUI elements
     style = Style(theme='flatly')
@@ -300,6 +409,7 @@ if __name__ == "__main__":
     # Combobox widget for selecting existing flashcard sets
     sets_combobox = ttk.Combobox(select_set_frame, state="readonly", )
     sets_combobox.pack(padx=5, pady=40)
+    sets_combobox.bind("<<ComboboxSelected>>", lambda e: select_flashcard_set())
 
     # Button to select a set
     ttk.Button(select_set_frame, text="Select Set", command=select_flashcard_set).pack(padx=5, pady=5)
@@ -310,7 +420,47 @@ if __name__ == "__main__":
     #Create the "Learn Mode" tab and its content
     flashcards_frame = ttk.Frame(notebook)
     notebook.add(flashcards_frame, text="Learn Mode")
-    
+
+    # Create the "Quiz Mode" tab and its content
+    quiz_frame = ttk.Frame(notebook)
+    notebook.add(quiz_frame, text="Quiz Mode")
+
+    # Label to display the definition/question in quiz mode
+    quiz_def_label = ttk.Label(quiz_frame, text="", font=("Times New Roman", 16))
+    quiz_def_label.pack(padx=5, pady=20)
+
+    # Entry for user to input their answer
+    quiz_input = ttk.Entry(quiz_frame, width=30)
+    quiz_input.pack(padx=5, pady=5)
+
+    # Feedback label for quiz answers
+    quiz_feedback_label = ttk.Label(quiz_frame, text="", font=("Times New Roman", 14))
+    quiz_feedback_label.pack(padx=5, pady=5)
+
+    # Button to submit quiz answer
+    submit_button = ttk.Button(quiz_frame, text="Submit", command=submit_quiz_answer)
+    submit_button.pack(padx=5, pady=10)
+
+    # Button to start quiz
+    ttk.Button(quiz_frame, text="Start Quiz", command=start_quiz).pack(padx=5, pady=10)
+
+    # Create the "Settings" tab
+    settings_frame = ttk.Frame(notebook)
+    notebook.add(settings_frame, text="Settings")
+
+    # Label for theme selector
+    ttk.Label(settings_frame, text="Choose a Theme:").pack(pady=10)
+
+    # Dropdown of available themes
+    theme_var = tk.StringVar()
+    theme_combobox = ttk.Combobox(settings_frame, textvariable=theme_var, state="readonly")
+    theme_combobox['values'] = ("flatly", "darkly", "superhero", "journal", "morph")
+    theme_combobox.current(0)  # Default to first option
+    theme_combobox.pack(pady=5)
+
+    # Apply theme button
+    ttk.Button(settings_frame, text="Apply Theme", command=apply_theme).pack(pady=10)
+
     # Initialize the flashcards list for tracking card index and current cards
     card_index = 0
     current_tabs = []   
@@ -322,7 +472,6 @@ if __name__ == "__main__":
     # Label to display the definition on flashcards
     definition_label = ttk.Label(flashcards_frame, text="")
     definition_label.pack(padx=5, pady=5, anchor='center')
-
 
     # Create a frame to hold the navigation buttons
     nav_frame = ttk.Frame(flashcards_frame)
@@ -337,10 +486,21 @@ if __name__ == "__main__":
     # Button to view the previous flashcard
     ttk.Button(flashcards_frame, text="Previous", command=prev_flashcard).pack(side='right', padx=5,)
 
+    # Button to load a demo flashcard set
+    ttk.Button(select_set_frame, text="Load Demo", command=load_demo_set).pack(padx=5, pady=5)
+
+# Function to clear the flashcards display
 def clear_flashcards_display():
     word_label.config(text="")
     definition_label.config(text="")
 
-    # populate the sets_combobox()
+# Populate dropdown at startup
+populate_sets_combobox()
 
-root.mainloop()     
+# After you call populate_sets_combobox()
+if sets_combobox['values']:
+    sets_combobox.set(sets_combobox['values'][0])  # Auto-select first set
+
+# Start the GUI loop
+root.mainloop()
+
